@@ -14,12 +14,12 @@ from pathlib import Path
 import environ
 import os
 
-def read_secret(secret_name):
-    file= open('/run/secrets/'+secret_name)
-    secret=file.read()
-    secret=secret.rstrip().lstrip()
-    file.close()
-    return secret
+# def read_secret(secret_name):
+#     file= open('/run/secrets/'+secret_name)
+#     secret=file.read()
+#     secret=secret.rstrip().lstrip()
+#     file.close()
+#     return secret
 
 
 env = environ.Env(
@@ -52,8 +52,8 @@ url=os.environ
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = env('SECRET_KEY')
-SECRET_KEY = read_secret('DJANGO_SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY')
+# SECRET_KEY = read_secret('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = True

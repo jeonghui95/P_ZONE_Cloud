@@ -87,3 +87,5 @@ db.sqlite3
 __pycache__/
 
 media/
+
+Dockerfile
