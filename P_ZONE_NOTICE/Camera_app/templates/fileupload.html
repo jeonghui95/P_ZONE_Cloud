@@ -4,8 +4,22 @@
 <div class="container">
     <form method="POST" action="{% url 'Camera_app:fileupload' %}" enctype="multipart/form-data">
         {% csrf_token %}
-        {% bootstrap_form fileuploadForm %}
-        <input type="submit" class="btn btn-primary col-12" value="제출">
+<!--        {% bootstrap_form fileuploadForm %}-->
+<!--        <input type="submit" class="btn btn-primary col-12" value="제출">-->
+        <input  type="file" accept="image/*;capture=camera" name="Camera">
+        <button type="submit">전송</button>
+<!--        <button type="button" onClick="upload()">Save</button>-->
     </form>
+    <script>
+        function(){
+                const form = new FormData();
+                form.append('img',img.current.files[0]);
+                fetch ('{% url 'Camera_app:fileupload' %}',{
+        method: 'post',
+        encType: 'multipart/formdata',
+        body: form
+        })
+                }
+    </script>
 </div>
 {% endblock%}
