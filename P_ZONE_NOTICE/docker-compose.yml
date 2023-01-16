@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  nginx:
+    image: nginx:latest
+    networks:
+      - network
+    volumes:
+      - /home/django_course/nginx.conf:/etc/nginx/nginx.conf
+      - static-volume:/data/static
+      - media-volume:/data/media
+    ports:
+      - 80:80
+  django_container_gunicorn:
+    image: django_test_image
+    networks:
+      - network
+    volumes:
+      - static-volume:/home/P_ZONE_CLOUD/P_ZONE_NOTICE/staticfiles/
+      - media-volume:/home/P_ZONE_CLOUD/P_ZONE_NOTICE/media/
+
+networks:
+  network:
+
+volumes:
+  static-volume:
+  media-volume:
+
