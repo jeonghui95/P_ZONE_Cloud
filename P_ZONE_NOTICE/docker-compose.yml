@@ -18,7 +18,7 @@ services:
       - static-volume:/home/P_ZONE_CLOUD/P_ZONE_NOTICE/staticfiles/
       - media-volume:/home/P_ZONE_CLOUD/P_ZONE_NOTICE/media/
   fastmodel:
-    image: restmodel_image
+    image: fastmodel_image
     networks:
       - network
 
