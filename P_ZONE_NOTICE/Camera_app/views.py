@@ -4,7 +4,7 @@ import requests
 from django.http import HttpResponse
 from django.shortcuts import render
 from .forms import FileUploadForm
-from PIL import Image
+# from PIL import Image
 
 def fileUpload(request):
     if request.method == 'POST':
