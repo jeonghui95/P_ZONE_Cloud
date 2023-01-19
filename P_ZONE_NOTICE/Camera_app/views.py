@@ -21,7 +21,7 @@ def fileUpload(request):
         # return redirect('Camera_app:fileupload')
 
 
-        # url = 'http://fastmodel:8000/'
+        # url = 'http://fastmodel:8000/file/store'
         # upload = {'file': img}
         # context = requests.post(url,files=upload).json()
         # m = MultipartEncoder(fields=upload)
