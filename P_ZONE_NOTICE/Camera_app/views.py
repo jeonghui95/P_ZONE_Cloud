@@ -8,7 +8,7 @@ from .forms import FileUploadForm
 
 def fileUpload(request):
     if request.method == 'POST':
-        # title = request.POST.get('title'  )
+        # title = request.POST.get('title')
         # content = request.POST.get('content')
         # img = request.FILES.get("Camera")
         img = request.FILES['Camera']
