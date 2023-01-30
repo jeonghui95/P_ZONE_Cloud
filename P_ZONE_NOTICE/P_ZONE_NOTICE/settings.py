@@ -72,7 +72,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Camera_app',
     'bootstrap4',
-    'geolocation',
 ]
 
 MIDDLEWARE = [
