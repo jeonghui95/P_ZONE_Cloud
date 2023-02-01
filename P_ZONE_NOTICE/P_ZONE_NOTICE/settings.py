@@ -117,7 +117,7 @@ MARIADB = {
     'default': {
         'DB_NAME': 'p_zone',
         'DB_USER': 'admin',
-        'DB_PASSWORD': env("DB_PASSWORD"),
+        'DB_PASSWORD': "Wjdgml119!",
         'DB_HOST': 'pzone-db.cm53ld3fibe2.ap-northeast-1.rds.amazonaws.com',
         'DB_PORT': '3306',
     }
