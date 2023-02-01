@@ -1,25 +1,69 @@
-{% extends 'base.html' %}
-{% load bootstrap4 %}
-{% block content %}
-<div class="container">
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.5.0/dialog-polyfill.js" charset="utf-8"></script>
+    <script >
+    //var url = "{% url 'Camera_app:fileupload' %}";
+    // var user_id = "xxxx";
+    function success(position) {
+        const latitude  = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        // window.onload = function(){
+
+        document.getElementById("lat").value=latitude;
+        document.getElementById("long").value=longitude;
+        //}
+
+        //window.location=url + "?" +"latitude=" + latitude + "&" + "longitude=" + longitude;
+    }
+    function error(position) {
+            //HTTPS가 아니거나 위치수집 동의를 안 할 경우
+            alert("위치수집 동의를 해주세요")
+
+        }
+
+    if(!navigator.geolocation) {
+        //Geolocation API를 지원하지 않는 브라우저일 경우
+        alert(" 현 브라우저가 위치수집을 지원하지 않습니다.\n 다른 브라우저를 이용해주세요 ")
+
+        } else {
+        //Geolocation API를 지원하는 브라우저일 경우
+
+        var optn = {enableHighAccuracy : true, timeout : 30000, maximumage: 0};
+        function geolocation(){
+                navigator.geolocation.getCurrentPosition(success, error,optn);
+            }
+        }
+     //geolocation();
+    </script>
+</head>
+<body onload="geolocation();">
     <form method="POST" action="{% url 'Camera_app:fileupload' %}" enctype="multipart/form-data">
         {% csrf_token %}
-<!--        {% bootstrap_form fileuploadForm %}-->
 <!--        <input type="submit" class="btn btn-primary col-12" value="제출">-->
-        <input  type="file" accept="image/*;capture=camera" name="Camera">
-        <button type="submit">전송</button>
+        <input type="file" accept="image/*;capture=camera" name="Camera" >
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="long" id="long">
+
+        <button  type="submit" >전송</button>
 <!--        <button type="button" onClick="upload()">Save</button>-->
+
     </form>
-    <script>
-        function(){
-                const form = new FormData();
-                form.append('img',img.current.files[0]);
-                fetch ('{% url 'Camera_app:fileupload' %}',{
-        method: 'post',
-        encType: 'multipart/formdata',
-        body: form
-        })
-                }
-    </script>
-</div>
-{% endblock%}
+</body>
+</html>
+
+
+
+
+
+

@@ -5,7 +5,7 @@ services:
     networks:
       - network
     volumes:
-      - /home/django_course/nginx.conf:/etc/nginx/nginx.conf
+      - /home/django-course/nginx.conf:/etc/nginx/nginx.conf
       - static-volume:/data/static
       - media-volume:/data/media
     ports:

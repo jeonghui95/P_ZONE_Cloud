@@ -113,15 +113,15 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-# DATABASES = {
-#     'default': {
-#         'DB_NAME': 'p_zone',
-#         'DB_USER': 'admin',
-#         'DB_PASSWORD': env("DB_PASSWORD"),
-#         'DB_HOST': 'pzone-db.cm53ld3fibe2.ap-northeast-1.rds.amazonaws.com',
-#         'DB_PORT': '3306',
-#     }
-# }
+MARIADB = {
+    'default': {
+        'DB_NAME': 'p_zone',
+        'DB_USER': 'admin',
+        'DB_PASSWORD': env("DB_PASSWORD"),
+        'DB_HOST': 'pzone-db.cm53ld3fibe2.ap-northeast-1.rds.amazonaws.com',
+        'DB_PORT': '3306',
+    }
+}
 
 
 # Password validation
@@ -174,7 +174,7 @@ MEDIA_URL = 'media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
-CSRF_TRUSTED_ORIGINS = ['https://*.mydomain.com',
+CSRF_TRUSTED_ORIGINS = ['https://*.pzone.site',
                         'https://*.127.0.0.1',
                         'http://*.18.177.143.210'
                         ]
