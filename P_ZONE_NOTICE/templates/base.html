@@ -2,9 +2,12 @@
 <html lang="en">
 {% include 'head.html' %}
 <body>
-    {% block content %}
-    {% endblock %}
+    {% include 'navigator.html' %}
 
+    {% block content %}{% endblock content %}
 
+    {% include 'footer.html' %}
+
+    {% block javascripts %}{% endblock javascripts %}
 </body>
 </html>

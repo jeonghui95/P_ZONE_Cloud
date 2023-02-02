@@ -4,6 +4,7 @@ import uuid
 from typing import IO
 import json
 
+
 import haversine as haversine
 import requests
 from haversine import haversine
@@ -44,8 +45,8 @@ def fileUpload(request):
 
 
     if request.method == 'POST':
-        long = float(request.POST.get('long'))
-        lat = float(request.POST.get('lat'))
+        long = float(127.06139307841329)
+        lat = float(37.509812901728836)
         img = request.FILES['Camera']
 
         # geo
@@ -93,14 +94,6 @@ def fileUpload(request):
 
 
         # image
-        import numpy as np
-        import base64
-        import cv2
-        cv_img = cv2.imdecode(np.frombuffer(img.read(), np.uint8), cv2.IMREAD_UNCHANGED)
-        is_success, img_buf_arr = cv2.imencode(".png", cv_img)
-        encoded_img = base64.b64encode(img_buf_arr.tobytes()) # base64로 변환
-        uri = f"data:image/png;base64,{str(encoded_img)[2:-2]}"
-
         # fileupload = FileUpload(
         #     title=title,
         #     content=content,
@@ -110,20 +103,18 @@ def fileUpload(request):
         # return redirect('Camera_app:fileupload')
 
 
-        url = 'http://fastmodel:8000/file/store'
+        url = 'http://test-fastmodel:8000/file/store'
         upload = {'file': img}
 
-        # context = requests.post(url,files=upload).json()
+        context = requests.post(url,files=upload).json()
         # context = requests.post(url, files=upload)
         # path= f"../../media/{save_file(img)}"
         # image = Image.open(path)
         # image.show()
-        context=dict()
         context["lat"] = lat
         context["long"] = long
-        context['imgpath'] = uri
         context["placeList"] = place_list
-
+        print(context)
         # m = MultipartEncoder(fields=upload)
         # headers = {'Content-Type': m.content_type}
         # res = requests.post(url, headers=headers, data=m)
