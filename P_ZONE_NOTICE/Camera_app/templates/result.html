@@ -53,14 +53,33 @@
     <li>
         {%for ii in Kinds %}
             {% if ii == 0 %}
-                <ul> 자전거 도로 </ul>
+                <ul> 인도 </ul>
             {% endif %}
             {% if ii == 1 %}
                 <ul> 횡단보도 </ul>
             {% endif %}
             {% if ii == 2 %}
-                <ul> 점자 블록 </ul>
+                <ul> 점자블록 </ul>
             {% endif %}
+            {% if ii == 3 %}
+                <ul> 자전거 도로 </ul>
+            {% endif %}
+            {% if ii == 4 %}
+                <ul> 버스 정류장 </ul>
+            {% endif %}
+            {% if ii == 5 %}
+                <ul> 소화전 </ul>
+            {% endif %}
+            {% if ii == 6 %}
+                <ul> 택시 정류장 </ul>
+            {% endif %}
+            {% if ii == 7 %}
+                <ul> 지하철역 </ul>
+            {% endif %}
+            {% if ii == 8 %}
+                <ul> 어린이 보호 구역 </ul>
+            {% endif %}
+
         {% endfor %}
     </li>
     {% else %}
