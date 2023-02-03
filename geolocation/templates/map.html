@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div id="map_wrap" class="map_wrap3">
+    <div id="map_div"></div>
+</div>
+<div class="map_act_btn_wrap clear_box"></div>
+    <p id="result"></p>
+<br/>
+
+
+
+{% endblock content %}
+
+{% block javascripts %}
+
+<script>
+    var map;
+    var resultdrawArr;
+    var drawInfoArr;
+    var nearest = JSON.parse("{{ nearest|escapejs }}")
+    var resultData = nearest.features;
+    var resultLen = resultData.length;
+
+        function initTmap() {
+        // 1. 지도 그리기
+                map = new Tmapv2.Map("map_div", {
+                center : new Tmapv2.LatLng(resultData[0].geometry.coordinates[1], resultData[0].geometry.coordinates[0]),
+                        width : "100%",
+                        height : "400px",
+                        zoom : 16,
+                        zoomControl : true,
+                        scrollwheel : true
+                });
+
+                // 2. 시작, 도착 심볼찍기
+                // 현 위치
+                marker_s = new Tmapv2.Marker(
+                                {
+                                        position : new Tmapv2.LatLng(resultData[0].geometry.coordinates[1], resultData[0].geometry.coordinates[0]),
+                                        icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
+                                        iconSize : new Tmapv2.Size(24, 38),
+                                        map : map
+                                });
+
+                // 도착
+                marker_e = new Tmapv2.Marker(
+                                {
+                                        position : new Tmapv2.LatLng(resultData[resultLen-1].geometry.coordinates[1], resultData[resultLen-1].geometry.coordinates[0]),
+                                        icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
+                                        iconSize : new Tmapv2.Size(24, 38),
+                                        map : map
+                                });
+
+        var tDistance = "총 거리 : "
+                + ((resultData[0].properties.totalDistance) / 1000)
+                        .toFixed(1) + "km,";
+        var tTime = " 총 시간 : "
+                + ((resultData[0].properties.totalTime) / 60)
+                        .toFixed(0) + "분";
+
+        $("#result").text(tDistance + tTime);
+
+
+        for (var i in resultData) { //for문 [S]
+            var geometry = resultData[i].geometry;
+            var properties = resultData[i].properties;
+            var polyline_;
+
+
+            if (geometry.type == "LineString") {
+                for (var j in geometry.coordinates) {
+                    // 경로들의 결과값(구간)들을 포인트 객체로 변환
+                    var latlng = new Tmapv2.Point(
+                            geometry.coordinates[j][0],
+                            geometry.coordinates[j][1]);
+                    // 포인트객체의 정보로 좌표값 변환 객체로 저장
+                    var convertChange = new Tmapv2.LatLng(
+                        latlng.y,
+                        latlng.x);
+                    // 배열에 담기
+                    drawInfoArr.push(convertChange);
+                }
+            } else {
+                var markerImg = "";
+                var pType = "";
+                var size;
+
+                if (properties.pointType == "SP") { //출발지 마커
+                    markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png";
+                    pType = "S";
+                    size = new Tmapv2.Size(24, 38);
+                } else if (properties.pointType == "EP") { //도착지 마커
+                    markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png";
+                    pType = "E";
+                    size = new Tmapv2.Size(24, 38);
+                } else { //각 포인트 마커
+                    markerImg = "http://topopen.tmap.co.kr/imgs/point.png";
+                    pType = "P";
+                    size = new Tmapv2.Size(8, 8);
+                }
+
+                // 경로들의 결과값들을 포인트 객체로 변환
+                var latlon = new Tmapv2.Point(
+                        geometry.coordinates[0],
+                        geometry.coordinates[1]);
+
+                var routeInfoObj = {
+                    markerImage : markerImg,
+                    lng : latlon.y,
+                    lat : latlon.x,
+                    pointType : pType
+                };
+
+                // Marker 추가
+                marker_p = new Tmapv2.Marker(
+                        {
+                            position : new Tmapv2.LatLng(
+                                    routeInfoObj.lat,
+                                    routeInfoObj.lng),
+                            icon : routeInfoObj.markerImage,
+                            iconSize : size,
+                            map : map
+                        });
+            }
+        }//for문 [E]
+        drawLine(drawInfoArr);
+    }
+
+        function drawLine(arrPoint) {
+                var polyline_;
+
+                polyline_ = new Tmapv2.Polyline({
+                        path : arrPoint,
+                        strokeColor : "#DD0000",
+                        strokeWeight : 6,
+                        map : map
+                });
+                resultdrawArr.push(polyline_);
+        }
+        $(document).ready(initTmap());
+</script>
+
+{% endblock javascripts %}
