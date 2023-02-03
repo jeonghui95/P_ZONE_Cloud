@@ -43,11 +43,34 @@
     //$(document).ready(function() {initTmap()});
 </script>
 
+{% if length <= 5 %}
+<div>
+    <h3>현재 주차 가능 상태는 "양호" 입니다! </h3>
+    <h3>주차 가능 점수 {{length}}점</h3>
+</div>
+{% elif 5 < length <= 10 %}
+<div>
+    <h3>현재 주차 가능 상태는 "주의" 입니다! </h3>
+    <h3>주차 가능 점수 {{length}}점</h3>
+</div>
+{% elif 10 < length  %}
+<div>
+    <h3>현재 주차 가능 상태는 "금지" 입니다! </h3>
+    <h3>주차 가능 점수 {{length}}점</h3>
+</div>
+{% endif %}
+
+#점수를 기준으로 주차 가능 설명 필요
+
+
 <img src="{{ uri  }}" alt="이미지" >
-    <div class="container">
+
+<div id="map_wrap" class="map_wrap3">
+    <div id="map_div"></div>
+</div>
+
+<div class="container">
   {% if length != 0 %}
-    <h2>주차 금지 구역이 있습니다!</h2>
-    <hr>
     <h3>금지 구역:</h3>
     <br>
     <li>

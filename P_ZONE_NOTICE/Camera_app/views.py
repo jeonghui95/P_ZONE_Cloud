@@ -64,7 +64,7 @@ def fileUpload(request):
         # image.show()
         context["lat"] = lat
         context["long"] = long
-
+        L = context["length"]
         
         
         # criteria를 기준으로 근처의 주차 금지구역 확인
@@ -80,22 +80,21 @@ def fileUpload(request):
             if distance < criteria:
                 print(row, distance)
                 place_list.append({"type": row[0], "latitude": row[1], "longitude": row[2]})
-
-            if row[0] == "bus":
-                context["kinds"].append(4)
-                context["length"]=context["length"]+=1
-            elif row[0] == "fire":
-                context["kinds"].append(5)
-                context["length"]= context["length"]+= 1
-            elif row[0] == "taxi":
-                context["kinds"].append(6)
-                context["length"]= context["length"]+= 1
-            elif row[0] == "subway":
-                context["kinds"].append(7)
-                context["length"]= context["length"]+= 1
-            elif row[0] == "children":
-                context["kinds"].append(8)
-                context["length"]= context["length"]+= 1
+                if row[0] == "bus":
+                    context["kinds"].append(4)
+                    L = L+1
+                elif row[0] == "fire":
+                    context["kinds"].append(5)
+                    L = L+1
+                elif row[0] == "taxi":
+                    context["kinds"].append(6)
+                    L = L+1
+                elif row[0] == "subway":
+                    context["kinds"].append(7)
+                    L = L+1
+                elif row[0] == "children":
+                    context["kinds"].append(8)
+                    L = L+1
 
         #  // 주차가능구역 확인
         sql = f"""SELECT p.type, p.latitude, p.longitude
@@ -109,6 +108,8 @@ def fileUpload(request):
                 place_list.append({"type": row[0], "latitude": row[1], "longitude": row[2]})
 
         context["placeList"] = place_list
+
+
 
 
         return  render(request,'result.html',context)
