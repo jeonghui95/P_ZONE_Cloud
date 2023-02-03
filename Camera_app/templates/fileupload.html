@@ -1,14 +1,24 @@
+{% extends 'base.html' %}
 
+{% block content %}
+<!--<body onload="geolocation();">-->
+<section class="page-section" id="contact">
+    <form method="POST" action="{% url 'Camera_app:fileupload' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+<!--        <input type="submit" class="btn btn-primary col-12" value="제출">-->
+        <input type="file" accept="image/*;capture=camera" name="Camera" >
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="long" id="long">
 
+        <button  type="submit" >전송</button>
+<!--        <button type="button" onClick="upload()">Save</button>-->
+    </form>
+</section>
+<!--</body>-->
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+{% endblock content%}
+
+{% block javascripts %}
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.5.0/dialog-polyfill.js" charset="utf-8"></script>
@@ -44,26 +54,9 @@
                 navigator.geolocation.getCurrentPosition(success, error,optn);
             }
         }
-     //geolocation();
+     $(document).ready(geolocation());
     </script>
-</head>
-<body onload="geolocation();">
-    <form method="POST" action="{% url 'Camera_app:fileupload' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-<!--        <input type="submit" class="btn btn-primary col-12" value="제출">-->
-        <input type="file" accept="image/*;capture=camera" name="Camera" >
-        <input type="hidden" name="lat" id="lat">
-        <input type="hidden" name="long" id="long">
-
-        <button  type="submit" >전송</button>
-<!--        <button type="button" onClick="upload()">Save</button>-->
-
-    </form>
-</body>
-</html>
-
-
-
+{% endblock javascripts %}
 
 
 
