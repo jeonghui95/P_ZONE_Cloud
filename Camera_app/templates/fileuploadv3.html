@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!--<body onload="geolocation();">-->
+<section class="page-section" id="contact">
+    <form method="POST" action="{% url 'Camera_app:fileupload' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+<!--        <input type="submit" class="btn btn-primary col-12" value="제출">-->
+        <input type="file" accept="image/*;capture=camera" name="Camera" >
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="long" id="long">
+
+        <button  type="submit" >전송</button>
+<!--        <button type="button" onClick="upload()">Save</button>-->
+    </form>
+</section>
+<section class="page-section" id="contact">
+    <div class="container">
+        <!-- Contact Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">서비스 종류</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Contact Section Form-->
+        <div class="row justify-content-center">
+            <div class="d-flex justify-content-center">
+                <a src="{% url 'Camera_app:create' %}" class="btn btn-primary btn-xl" style="margin-bottom:2%" id="distinguishButton" >주차가능구역 판별</a >
+                </div>
+            <div class="d-flex justify-content-center">
+                <a src="{% url 'Camera_app:create' %}" class="btn btn-primary btn-xl" id="guideButton" >가까운 전동킥보드 주차장 안내<a/ >
+                </div> <!--button태그의 class에서 disabled 삭제-->
+        </div>
+        
+        </div>
+        
+    </div>
+    </section>
+
+<!--</body>-->
+
+{% endblock content%}
+
+{% block javascripts %}
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.5.0/dialog-polyfill.js" charset="utf-8"></script>
+    <script >
+    //var url = "{% url 'Camera_app:fileupload' %}";
+    // var user_id = "xxxx";
+    function success(position) {
+        const latitude  = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        // window.onload = function(){
+
+        document.getElementById("lat").value=latitude;
+        document.getElementById("long").value=longitude;
+        //}
+
+        //window.location=url + "?" +"latitude=" + latitude + "&" + "longitude=" + longitude;
+    }
+    function error(position) {
+            //HTTPS가 아니거나 위치수집 동의를 안 할 경우
+            alert("위치수집 동의를 해주세요")
+
+        }
+
+    if(!navigator.geolocation) {
+        //Geolocation API를 지원하지 않는 브라우저일 경우
+        alert(" 현 브라우저가 위치수집을 지원하지 않습니다.\n 다른 브라우저를 이용해주세요 ")
+
+        } else {
+        //Geolocation API를 지원하는 브라우저일 경우
+
+        var optn = {enableHighAccuracy : true, timeout : 30000, maximumage: 0};
+        function geolocation(){
+                navigator.geolocation.getCurrentPosition(success, error,optn);
+            }
+        }
+     $(document).ready(geolocation());
+    </script>
+{% endblock javascripts %}
+
+
+
