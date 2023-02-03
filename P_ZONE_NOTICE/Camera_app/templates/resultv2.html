@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+<div class="container">
+  {% if length != 0 %}
+    <h2>주차 금지 구역이 있습니다!</h2>
+    <hr>
+    <h3>금지 구역:</h3>
+    <br>
+    <li>
+        {%for ii in Kinds %}
+            {% if ii == 0 %}
+                <ul> 자전거 도로 </ul>
+            {% endif %}
+            {% if ii == 1 %}
+                <ul> 횡단보도 </ul>
+            {% endif %}
+            {% if ii == 2 %}
+                <ul> 점자 블록 </ul>
+            {% endif %}
+        {% endfor %}
+    </li>
+    {% else %}
+        <h2> 금지구역이 없습니다!</h2>
+    {% endif %}
+
+</div>
+
+{% endblock %}
