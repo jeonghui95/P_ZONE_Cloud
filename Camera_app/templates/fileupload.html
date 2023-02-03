@@ -6,7 +6,7 @@
     <form method="POST" action="{% url 'Camera_app:fileupload' %}" enctype="multipart/form-data">
         {% csrf_token %}
 <!--        <input type="submit" class="btn btn-primary col-12" value="제출">-->
-        <input type="file" accept="image/*;capture=camera" name="Camera" >
+        <input type="file" accept="image/*;capture=camera"  name="Camera" >
         <input type="hidden" name="lat" id="lat">
         <input type="hidden" name="long" id="long">
 
