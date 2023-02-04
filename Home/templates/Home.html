@@ -18,10 +18,11 @@
                 <form method="POST" action="{% url 'Camera_app:fileupload' %}" enctype="multipart/form-data">
                 {% csrf_token %}
         <!--        <input type="submit" class="btn btn-primary col-12" value="제출">-->
-                <input type="file" accept="image/*;capture=camera" name="Camera"  id="Camera" required >
+                <input type="file" accept="image/*;capture=camera" name="Camera"  id="Camera" style="display:none;" required >
                 <input type="hidden" name="lat" id="lat">
                 <input type="hidden" name="long" id="long">
-                <button  type="submit" class="btn btn-primary btn-xl" style="margin-bottom:2%" id="distinguishButton" >주차가능구역 판별</button >
+                <button type="button" class="btn btn-primary btn-xl" style="margin-bottom:2%;" id="testButton" >주차가능구역 판별</button>
+                    <button type="submit" class="btn btn-secondary" style="display:none;margin-bottom:2%" id="distinguishButton" >전송</button >
                 </form>
             </div>
             <div class="d-flex justify-content-center">
@@ -77,16 +78,10 @@
         }
      $(document).ready(geolocation());
 
-     $("#testButton").click(()=> {
-     var filePath =document.getElementByID('Camera').value.length;
-     if (filePath == 0){
-        $("Camera").click();
-
-     }else{
-        $("SubmitButton").click();
-     }
-
-    })
+     $(document).on("click", "#testButton", function() {
+        $("#Camera").click();
+        $("#distinguishButton").css("display", "inline-block");
+     });
 
     </script>
 {% endblock javascripts %}
