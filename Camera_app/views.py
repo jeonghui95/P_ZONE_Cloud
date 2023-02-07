@@ -57,11 +57,11 @@ def fileUpload(request):
 
 
         ## MODEL 서버와 통신 후 Response
-        # url = 'http://test-fastmodel:8000/file/store'
-        # upload = {'file': img}
-        #
-        # context = requests.post(url, files=upload).json()
-        context=dict()
+        url = 'http://test-fastmodel:8000/file/store'
+        upload = {'file': img}
+
+        context = requests.post(url, files=upload).json()
+        # context=dict()
         context["lat"] = lat
         context["long"] = long
         context["length"] = 0
