@@ -65,8 +65,7 @@ def fileUpload(request):
         context["lat"] = lat
         context["long"] = long
         context["length"] = 0
-        context["kinds"] = []
-        L = context["length"]
+        context["kinds"] = set()
 
         
         # criteria를 기준으로 근처의 주차 금지구역 확인
@@ -78,29 +77,29 @@ def fileUpload(request):
                   WHERE c.dongcode={dongCode}"""
         cursor.execute(sql)
         for row in cursor.fetchall():
-            distance = haversine((lat, long), (row[1], row[2]), unit="m")
+            cz_lat=float(row[1])
+            cz_long=float(row[2])
+            distance = haversine((lat, long), (cz_lat, cz_long), unit="m")
             if distance < criteria:
                 print(row, distance)
-                place_list.append({"type": row[0], "latitude": row[1], "longitude": row[2]})
+                place_list.append({"type": row[0], "latitude": cz_lat, "longitude": cz_long})
                 if row[0] == "bus":
-                    context["kinds"].append(4)
-                    L = L+1
+                    context["kinds"].add(4)
+                    context["length"] = context["length"]+1
                 elif row[0] == "fire":
-                    context["kinds"].append(5)
-                    L = L+1
+                    context["kinds"].add(5)
+                    context["length"] = context["length"]+1
                 elif row[0] == "taxi":
-                    context["kinds"].append(6)
-                    L = L+1
+                    context["kinds"].add(6)
+                    context["length"] = context["length"]+1
                 elif row[0] == "subway":
-                    context["kinds"].append(7)
-                    L = L+1
+                    context["kinds"].add(7)
+                    context["length"] = context["length"] + 1
                 elif row[0] == "children":
-                    context["kinds"].append(8)
-                    L = L+1
+                    context["kinds"].add(8)
+                    context["length"] = context["length"] + 1
 
-        context["placeList"] = place_list
-        print(context["placeList"])
-        print(context["kinds"])
+
 
         #  // 주차가능구역 확인
         sql = f"""SELECT p.type, p.latitude, p.longitude
@@ -109,14 +108,15 @@ def fileUpload(request):
 
         cursor.execute(sql)
         for row in cursor.fetchall():
-            distance = haversine((lat, long), (row[1], row[2]), unit="m")
+            pz_lat=float(row[1])
+            pz_long=float(row[2])
+            distance = haversine((lat, long), (pz_lat, pz_long), unit="m")
             if distance < criteria:
                 print(row)
-                place_list.append({"type": row[0], "latitude": row[1], "longitude": row[2]})
+                place_list.append({"type": row[0], "latitude": pz_lat, "longitude": pz_long})
 
-
-
-
+        context["placeList"] = place_list
+        print(context)
         return  render(request,'result.html',context)
 
 
