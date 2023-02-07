@@ -52,7 +52,7 @@ def fileUpload(request):
             print("여기는 강남구가 아님")
         else:
             print("여기는 강남구")
-            print(dongCode)
+        print(dongCode)
 
 
 
@@ -65,7 +65,7 @@ def fileUpload(request):
         context["lat"] = lat
         context["long"] = long
         context["length"] = 0
-        context["kinds"] = []
+        context['kind'] = list()
         L = context["length"]
 
         
@@ -98,24 +98,16 @@ def fileUpload(request):
                     context["kinds"].append(8)
                     L = L+1
 
-        context["placeList"] = place_list
-        print(context["placeList"])
-        print(context["kinds"])
-
         #  // 주차가능구역 확인
         sql = f"""SELECT p.type, p.latitude, p.longitude
                   FROM parkingzone p
                   WHERE p.dongcode={dongCode}"""
-
         cursor.execute(sql)
         for row in cursor.fetchall():
             distance = haversine((lat, long), (row[1], row[2]), unit="m")
             if distance < criteria:
                 print(row)
                 place_list.append({"type": row[0], "latitude": row[1], "longitude": row[2]})
-
-
-
 
         return  render(request,'result.html',context)
 
